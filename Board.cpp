@@ -49,7 +49,14 @@ Board(int m, int n){
 }
 
 ~Board(){
-  
+  for(int i = 0; i < numRows; i++){
+    for(int j = 0; j < numCols; j++){
+      delete panel[i][j];
+    }
+    delete[] panel[i];
+  }
+  delete[] panel;
+  panel = NULL;
 }
 
 void print(){
