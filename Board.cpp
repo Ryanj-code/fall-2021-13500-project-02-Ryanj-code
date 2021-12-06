@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include "Board.hpp"
 /*
 Board::Board(){
@@ -6,40 +7,33 @@ Board::Board(){
     max = 0;
     numRows = 3;
     numCols = 3;
-
     panel = new int*[numRows];
     for (int i = 0; i < numRows; i++){
         panel[i] = new int[numCols];
     }
 }
-
 Board::Board(int m){
     target = 32;
     max = 0;
-
     if (m < 0){
         m = 3;
     }
     numRows = m;
     numCols = m;
-
     panel = new int*[numRows];
     for (int i = 0; i < numRows; i++){
         panel[i] = new int[numCols];
     }
 }
-
 Board::Board(int m, int n){
     target = 32;
     max = 0;
-
     if (m < 0 || n < 0){
         m = 3;
         n = 3;
     }
     numRows = m;
     numCols = n;
-
     panel = new int*[numRows];
     for (int i = 0; i < numRows; i++){
         panel[i] = new int[numCols];
@@ -62,10 +56,10 @@ void Board::print() const{
         std::cout << "|";
         for (int j = 0; j < numCols; j++){
             if (panel[i][j] != 0){
-                std::cout << "    " << panel[i][j] << "|";
+                std::cout << std::setw(4) << panel[i][j] << "|";
             }
             if (panel[i][j] == 0){
-                std::cout << "    |";
+                std::cout << std::setw(4) << " " << "|";
             }
         }
         std::cout << "\n";
@@ -76,13 +70,12 @@ void Board::print() const{
     }
     std::cout << "+" << std::endl;
 }
-
+/*
 bool Board::noAdjacentSameValue() const{
-  for(int i = 0; i < numRows-1; i++){
-    for(int j = 0; j < numCols-1; j++){
-      if(panel[i][j] == panel[i+1][j] || panel[i][j] == panel[i][j+1]
-	 || panel[i][j] == panel[i-1][j] || panel[i][j] == panel[i][j-1]){
-	return false;
+  for(int i = 0; i < numRows; i++){
+    for(int j = 1; j < numCols-1; j++){
+      if(panel[i][j-1] == panel[i][j] || panel[i][j+1] == panel[i][j]){
+	    return false;
       }
     }
   }
@@ -107,23 +100,23 @@ void Board::selectRandomCell(int& row, int& col){
                 emptyCells.push_back(newCell);
             }
         }
-    }
+    } // Records the row and col of the empty cells in the vector of rc called emptyCells.
 
-    if (emptyCells.size() > 0){
-        int randNum = rand() % emptyCells.size() - 0;
-        panel[emptyCells.at(randNum).row][emptyCells.at(randNum).col] = 1; 
+    if(emptyCells.size() > 0){
+        int r = rand() % emptyCells.size() - 0;
+        panel[emptyCells.at(r).row][emptyCells.at(r).col] = 1; 
         print();
-    }
-        if(noAdjacentSameValue() || emptyCells.size() == 0){
+    } // If there are not 0 empty cells, randomly set an empty cell to 1.
+
+	if(noAdjacentSameValue() || emptyCells.size() <= 0){
         std::cout << "Game over. Try again." << std::endl;
-        exit(0);
-    }	
+    } // Print out game over if noAdjacentSameValue is true or there are no empty cells.
 }
-/*
+*/
+
 void Board::pressUp(){
 	
 }
-
 void Board::pressDown(){
 	int* temp = new int[numRows]; 
     int toWrite;
@@ -131,7 +124,6 @@ void Board::pressDown(){
         //initialize each element of temp to be 0
         for (int k = 0; k < numRows; k++)
             temp[k] = 0;
-
         //copy the non-zeros from the jth column
         //of panel to temp
         toWrite = numRows -1; //next position to write in temp
@@ -140,15 +132,12 @@ void Board::pressDown(){
                temp[toWrite] = panel[i][j];
                toWrite--;
             }
-
         for (int k = numRows-1; k > 0; k--) //? k >= 0 is not correct, it would result in out of index exception in expression temp[k-1].
             if (temp[k] == temp[k-1]){
                temp[k] *= 2;
-
                //MISS
                if (max < temp[k])
                   max = temp[k];
-
                temp[k-1] = 0;
                k--; //k-- to skip adjacent pair
                //temp[k-1] and temp[k-2]
@@ -163,7 +152,6 @@ void Board::pressDown(){
                //then 0 merged with 0 does not
                //result in any actual difference.
             }
-
         int i = numRows -1;  //to write in jth column of panel, starting from the last row since we press down key, whose row index is numRows-1. 
         int k = numRows -1; //can use for loop for k
         while (k >= 0) 
@@ -175,7 +163,6 @@ void Board::pressDown(){
             }
             k--;
         }
-
         //For the remaining elements in the jth column, pad with 0.
         while (i >= 0)
         {
@@ -183,20 +170,15 @@ void Board::pressDown(){
             i--;
         }
     }
-
     delete[] temp;
     temp = nullptr;
-
     //MISS
     int row = -1, col = -1;
     selectRandomCell(row, col);
 }
 
 void Board::pressLeft(){
-
 }
 
 void Board::pressRight(){
-
 }
-*/
