@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Board.hpp"
-
+/*
 Board::Board(){
     target = 32;
     max = 0;
@@ -45,7 +45,7 @@ Board::Board(int m, int n){
         panel[i] = new int[numCols];
     }
 }
-
+*/
 Board::~Board(){
     for(int i = 0; i < numRows; i++){
         delete[] panel[i];
