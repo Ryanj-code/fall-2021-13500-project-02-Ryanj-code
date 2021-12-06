@@ -94,18 +94,81 @@ struct rc {
   int row;
   int col;
 };
- 
 
 void Board::selectRandomCell(int& row, int& col){
-  
+	
 }
 
 void Board::pressUp(){
-
+	
 }
 
 void Board::pressDown(){
+	int* temp = new int[numRows]; 
+    int toWrite;
+    for (int j = 0; j < numCols; j++){
+        //initialize each element of temp to be 0
+        for (int k = 0; k < numRows; k++)
+            temp[k] = 0;
 
+        //copy the non-zeros from the jth column
+        //of panel to temp
+        toWrite = numRows -1; //next position to write in temp
+        for (int i = numRows-1; i >= 0; i--)
+            if (panel[i][j] > 0){
+               temp[toWrite] = panel[i][j];
+               toWrite--;
+            }
+
+        for (int k = numRows-1; k > 0; k--) //? k >= 0 is not correct, it would result in out of index exception in expression temp[k-1].
+            if (temp[k] == temp[k-1]){
+               temp[k] *= 2;
+
+               //MISS
+               if (max < temp[k])
+                  max = temp[k];
+
+               temp[k-1] = 0;
+               k--; //k-- to skip adjacent pair
+               //temp[k-1] and temp[k-2]
+               //since temp[k-1] is merged with
+               //temp[k] already.
+               //This line can be omitted after
+               //setting temp[k-1] = 0;
+               //since if temp[k-2] is not zero,
+               //no way to merge since
+               //temp[k-1] != temp[k-2],
+               //if temp[k-2] is zero,
+               //then 0 merged with 0 does not
+               //result in any actual difference.
+            }
+
+        int i = numRows -1;  //to write in jth column of panel, starting from the last row since we press down key, whose row index is numRows-1. 
+        int k = numRows -1; //can use for loop for k
+        while (k >= 0) 
+        {
+            if (temp[k] > 0)
+            {
+               panel[i][j] = temp[k];
+               i--;
+            }
+            k--;
+        }
+
+        //For the remaining elements in the jth column, pad with 0.
+        while (i >= 0)
+        {
+            panel[i][j] = 0;
+            i--;
+        }
+    }
+
+    delete[] temp;
+    temp = nullptr;
+
+    //MISS
+    int row = -1, col = -1;
+    selectRandomCell(row, col);
 }
 
 void Board::pressLeft(){
