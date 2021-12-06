@@ -53,8 +53,7 @@ Board::~Board(){
     delete[] panel;
 }
 
-void Board::print() const
-{
+void Board::print() const{
     for (int i = 0; i < numRows; i++){
         for (int j = 0; j < numCols; j++){
             std::cout << "+----";
@@ -76,4 +75,43 @@ void Board::print() const
         std::cout << "+----";
     }
     std::cout << "+" << std::endl;
+}
+
+bool Board::noAdjacentSameValue() const{
+  for(int i = 0; i < numRows-1; i++){
+    for(int j = 0; j < numCols-1; j++){
+      if(panel[i][j] == panel[i+1][j] || panel[i][j] == panel[i][j+1]
+	 || panel[i][j] == panel[i-1][j] || panel[i][j] == panel[i][j-1]){
+	return false;
+      }
+    }
+  }
+
+  return true;
+}
+
+struct rc {
+  int row;
+  int col;
+};
+ 
+
+void Board::selectRandomCell(int& row, int& col){
+  
+}
+
+void Board::pressUp(){
+
+}
+
+void Board::pressDown(){
+
+}
+
+void Board::pressLeft(){
+
+}
+
+void Board::pressRight(){
+
 }
