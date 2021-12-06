@@ -112,11 +112,11 @@ void Board::selectRandomCell(int& row, int& col){
     if (emptyCells.size() > 0){
         int randNum = rand() % emptyCells.size() - 0;
         panel[emptyCells.at(randNum).row][emptyCells.at(randNum).col] = 1; 
-        print(); 
+        print();
+    }
         if(noAdjacentSameValue() || emptyCells.size() == 0){
-            std::cout << "Game over. Try again." << std::endl;
-            exit(0);
-        }
+        std::cout << "Game over. Try again." << std::endl;
+        exit(0);
     }	
 }
 /*
